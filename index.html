@@ -16,14 +16,16 @@
     <div class="side me">
         <div class="row"><div class="slot active" id="my-battle"></div></div>
         <div class="row" id="my-bench">
-            <div class="slot"></div><div class="slot"></div><div class="slot"></div>
+            <div class="slot" id="bench-0"></div>
+            <div class="slot" id="bench-1"></div>
+            <div class="slot" id="bench-2"></div>
         </div>
     </div>
 </div>
 
 <div id="controls">
     <div class="status-bar">
-        <div>エネ貯球: <span id="energy-icon" style="color:#ffd700">⚡</span></div>
+        <div>エネ貯球: <span id="energy-icon">💧</span></div>
         <div>Point: 0/3</div>
         <button class="btn-end">ターン終了</button>
     </div>
@@ -31,7 +33,7 @@
 </div>
 
 <div id="modal">
-    <div class="card-detail">
+    <div class="card-detail" id="detail-frame">
         <div class="det-header">
             <span id="det-name"></span>
             <span class="det-hp">HP <span id="det-hp"></span></span>
@@ -43,18 +45,16 @@
             <div id="det-ab-text" class="det-ab-text"></div>
         </div>
 
-        <div id="det-attacks-container">
-            </div>
+        <div id="det-attacks-container"></div>
 
         <div class="det-footer">
-            <div class="footer-item">
-                <span class="footer-label">弱点</span>
-                <span id="det-weakness" class="footer-value"></span>
-            </div>
-            <div class="footer-item">
-                <span class="footer-label">にげる</span>
-                <span id="det-retreat" class="footer-value"></span>
-            </div>
+            <div class="footer-item"><span class="footer-label">弱点</span><span id="det-weakness"></span></div>
+            <div class="footer-item"><span class="footer-label">にげる</span><span id="det-retreat"></span></div>
+        </div>
+
+        <div class="action-area">
+            <button class="act-btn battle" id="btn-play-battle">バトル場に出す</button>
+            <button class="act-btn bench" id="btn-play-bench">ベンチに出す</button>
         </div>
 
         <button id="close-btn">閉じる</button>
