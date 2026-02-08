@@ -1,0 +1,43 @@
+:root { --accent: #ffd700; --bg: #1a1a1a; --card-w: 65px; --card-h: 90px; }
+body { margin: 0; background: var(--bg); color: white; font-family: sans-serif; overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
+
+#field { flex: 1; display: flex; flex-direction: column; padding: 5px; }
+.side { flex: 1; display: flex; flex-direction: column; justify-content: space-around; }
+.row { display: flex; justify-content: center; gap: 10px; }
+.slot { width: var(--card-w); height: var(--card-h); border: 1px dashed #444; border-radius: 5px; }
+.slot.active { border: 2px solid var(--accent); }
+
+.mini-card { width: 90%; height: 90%; background: #eee; color: #333; border-radius: 4px; font-size: 9px; padding: 4px; box-sizing: border-box; cursor: pointer; border: none; margin: auto; display: block; }
+
+#controls { height: 160px; background: #000; border-top: 2px solid var(--accent); }
+.status-bar { display: flex; justify-content: space-between; padding: 8px 15px; font-size: 13px; background: #222; align-items: center; }
+#hand { display: flex; overflow-x: auto; gap: 10px; padding: 10px; height: 100px; align-items: center; }
+
+#modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; justify-content: center; align-items: center; display: none; }
+#modal.modal-show { display: flex; }
+.card-detail { width: 290px; background: white; border-radius: 15px; color: #333; padding: 20px; box-sizing: border-box; }
+
+.det-header { display: flex; justify-content: space-between; font-weight: bold; font-size: 20px; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+.det-hp { color: #e74c3c; }
+
+.det-ability { margin: 10px 0; padding: 8px; background: #fdf2e9; border-left: 5px solid #f39c12; border-radius: 4px; }
+.det-ab-label { font-size: 10px; display: flex; justify-content: space-between; font-weight: bold; }
+.det-ab-name { font-size: 14px; font-weight: bold; color: #d35400; }
+.det-ab-text { font-size: 11px; margin-top: 4px; }
+
+.det-atk-row { padding: 8px 0; border-bottom: 1px solid #eee; }
+.atk-main { display: flex; align-items: center; gap: 10px; }
+.det-energy { font-size: 16px; letter-spacing: -2px; min-width: 60px; }
+.det-atk-name { flex: 1; font-weight: bold; font-size: 15px; }
+.det-dmg { font-size: 18px; font-weight: bold; }
+.det-atk-text { font-size: 10px; color: #666; margin-top: 2px; }
+
+.det-footer { margin-top: 15px; display: flex; justify-content: space-around; border-top: 1px solid #eee; padding-top: 10px; }
+.footer-item { display: flex; flex-direction: column; align-items: center; }
+.footer-label { font-size: 9px; color: #888; font-weight: bold; }
+.footer-value { font-size: 15px; font-weight: bold; }
+
+.loc-battle { color: #e74c3c; }
+.loc-both { color: #2ecc71; }
+#close-btn { width: 100%; margin-top: 15px; background: #333; color: white; border: none; padding: 10px; border-radius: 20px; font-weight: bold; }
+.btn-end { background: var(--accent); border: none; border-radius: 10px; padding: 5px 15px; font-weight: bold; }
