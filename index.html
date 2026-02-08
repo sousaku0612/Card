@@ -23,30 +23,41 @@
 
 <div id="controls">
     <div class="status-bar">
-        <div>エネ: <span style="color:#ffd700">🔵</span></div>
+        <div>エネ貯球: <span id="energy-icon" style="color:#ffd700">⚡</span></div>
         <div>Point: 0/3</div>
         <button class="btn-end">ターン終了</button>
     </div>
     <div id="hand"></div>
 </div>
 
-<div id="modal" class="modal-hidden">
+<div id="modal">
     <div class="card-detail">
         <div class="det-header">
             <span id="det-name"></span>
             <span class="det-hp">HP <span id="det-hp"></span></span>
         </div>
+        
         <div id="det-ability-box" class="det-ability">
             <div class="det-ab-label">特性 <span id="det-ab-loc"></span></div>
             <span id="det-ab-name" class="det-ab-name"></span>
             <div id="det-ab-text" class="det-ab-text"></div>
         </div>
-        <div class="det-atk-row">
-            <span id="det-cost" class="det-energy"></span>
-            <div class="det-atk-name" id="det-atk"></div>
-            <span class="det-dmg" id="det-dmg"></span>
+
+        <div id="det-attacks-container">
+            </div>
+
+        <div class="det-footer">
+            <div class="footer-item">
+                <span class="footer-label">弱点</span>
+                <span id="det-weakness" class="footer-value"></span>
+            </div>
+            <div class="footer-item">
+                <span class="footer-label">にげる</span>
+                <span id="det-retreat" class="footer-value"></span>
+            </div>
         </div>
-        <button class="close-btn">閉じる</button>
+
+        <button id="close-btn">閉じる</button>
     </div>
 </div>
 
