@@ -13,6 +13,7 @@ let selectedIndex = null;
 
 function init() {
     renderHand();
+    console.log("Card list loaded: ", cardList); // ブラウザのコンソールでデータを確認用
 }
 
 function renderHand() {
@@ -32,45 +33,63 @@ function showDetail(index) {
     
     // 枠線の色変更
     const frame = document.getElementById('detail-frame');
-    frame.className = 'card-detail frame-' + data.type;
+    frame.className = 'card-detail frame-' + (data.type || 'default');
 
     document.getElementById('det-name').innerText = data.name;
     document.getElementById('det-hp').innerText = data.hp;
-    document.getElementById('det-weakness').innerText = data.weakness + "×2";
-    document.getElementById('det-retreat').innerText = data.retreat || "0";
+    document.getElementById('det-weakness').innerText = (data.weakness || "-") + " ×2";
+    
+    // にげるコストの点検表示
+    document.getElementById('det-retreat').innerText = data.retreat === "" ? "0" : data.retreat;
 
+    // 特性表示
     const abBox = document.getElementById('det-ability-box');
     if(data.hasAbility) {
         abBox.style.display = "block";
         document.getElementById('det-ab-name').innerText = data.abName;
         document.getElementById('det-ab-text').innerText = data.abText;
-    } else { abBox.style.display = "none"; }
+        const locEl = document.getElementById('det-ab-loc');
+        locEl.innerText = data.abLoc === "battle" ? "●バトル場のみ" : "●どこでも可";
+        locEl.className = data.abLoc === "battle" ? "loc-battle" : "loc-both";
+    } else {
+        abBox.style.display = "none";
+    }
 
+    // ワザ表示ループの点検
     const atkContainer = document.getElementById('det-attacks-container');
     atkContainer.innerHTML = '';
     data.attacks.forEach(atk => {
         const div = document.createElement('div');
         div.className = 'det-atk-row';
-        div.innerHTML = `<div class="atk-main"><span class="det-energy">${atk.cost || "なし"}</span><span class="det-atk-name">${atk.name}</span><span>${atk.dmg}</span></div><div class="det-atk-text">${atk.text}</div>`;
+        const costDisp = atk.cost === "" ? "<small style='color:#888'>なし</small>" : atk.cost;
+        const dmgDisp = atk.dmg === "0" ? "-" : atk.dmg;
+        
+        div.innerHTML = `
+            <div class="atk-main">
+                <span class="det-energy">${costDisp}</span>
+                <span class="det-atk-name">${atk.name}</span>
+                <span class="det-dmg">${dmgDisp}</span>
+            </div>
+            <div class="det-atk-text">${atk.text}</div>
+        `;
         atkContainer.appendChild(div);
     });
 
     modal.classList.add('modal-show');
 }
 
-// バトル場に出す
+// --- 配置ボタン（動作確認用） ---
 document.getElementById('btn-play-battle').onclick = () => {
     const card = cardList[selectedIndex];
-    myBattle.innerHTML = `<div class="mini-card"><b>${card.name}</b><br>HP:${card.hp}</div>`;
+    myBattle.innerHTML = `<div class="mini-card"><b>${card.name}</b><br>${card.typeIcon} HP:${card.hp}</div>`;
     modal.classList.remove('modal-show');
 };
 
-// ベンチに出す
 document.getElementById('btn-play-bench').onclick = () => {
     const card = cardList[selectedIndex];
     for (let slot of myBenchSlots) {
         if (slot.innerHTML === "") {
-            slot.innerHTML = `<div class="mini-card"><b>${card.name}</b><br>HP:${card.hp}</div>`;
+            slot.innerHTML = `<div class="mini-card"><b>${card.name}</b><br>${card.typeIcon} HP:${card.hp}</div>`;
             break;
         }
     }
@@ -78,30 +97,5 @@ document.getElementById('btn-play-bench').onclick = () => {
 };
 
 document.getElementById('close-btn').onclick = () => modal.classList.remove('modal-show');
-
-init();
-    const atkContainer = document.getElementById('det-attacks-container');
-    atkContainer.innerHTML = '';
-    data.attacks.forEach(atk => {
-        const costDisplay = atk.cost === "" ? "<small style='color:#999'>なし</small>" : atk.cost;
-        const atkRow = document.createElement('div');
-        atkRow.className = 'det-atk-row';
-        atkRow.innerHTML = `
-            <div class="atk-main">
-                <span class="det-energy">${costDisplay}</span>
-                <span class="det-atk-name">${atk.name}</span>
-                <span class="det-dmg">${atk.dmg === "0" ? "-" : atk.dmg}</span>
-            </div>
-            <div class="det-atk-text">${atk.text}</div>
-        `;
-        atkContainer.appendChild(atkRow);
-    });
-
-    modal.classList.add('modal-show');
-}
-
-document.getElementById('close-btn').onclick = () => {
-    modal.classList.remove('modal-show');
-};
 
 init();
