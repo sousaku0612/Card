@@ -13,15 +13,18 @@ let selectedIndex = null;
 
 function init() {
     renderHand();
-    console.log("Card list loaded: ", cardList); // ブラウザのコンソールでデータを確認用
 }
 
 function renderHand() {
     handEl.innerHTML = '';
     cardList.forEach((card, index) => {
-        const btn = document.createElement('button');
+        const btn = document.createElement('div');
         btn.className = 'mini-card';
-        btn.innerHTML = `<b>${card.name}</b><br>${card.typeIcon} HP:${card.hp}`;
+        btn.innerHTML = `
+            <div style="font-weight:bold; height:30px; overflow:hidden;">${card.name}</div>
+            <div style="font-size:24px; text-align:center;">${card.typeIcon}</div>
+            <div style="text-align:right; font-weight:bold;">HP:${card.hp}</div>
+        `;
         btn.onclick = () => showDetail(index);
         handEl.appendChild(btn);
     });
@@ -31,44 +34,32 @@ function showDetail(index) {
     selectedIndex = index;
     const data = cardList[index];
     
-    // 枠線の色変更
     const frame = document.getElementById('detail-frame');
-    frame.className = 'card-detail frame-' + (data.type || 'default');
+    frame.className = 'card-detail frame-' + data.type;
 
     document.getElementById('det-name').innerText = data.name;
     document.getElementById('det-hp').innerText = data.hp;
-    document.getElementById('det-weakness').innerText = (data.weakness || "-") + " ×2";
-    
-    // にげるコストの点検表示
+    document.getElementById('det-weakness').innerText = (data.weakness || "-") + "×2";
     document.getElementById('det-retreat').innerText = data.retreat === "" ? "0" : data.retreat;
 
-    // 特性表示
     const abBox = document.getElementById('det-ability-box');
     if(data.hasAbility) {
         abBox.style.display = "block";
         document.getElementById('det-ab-name').innerText = data.abName;
         document.getElementById('det-ab-text').innerText = data.abText;
-        const locEl = document.getElementById('det-ab-loc');
-        locEl.innerText = data.abLoc === "battle" ? "●バトル場のみ" : "●どこでも可";
-        locEl.className = data.abLoc === "battle" ? "loc-battle" : "loc-both";
-    } else {
-        abBox.style.display = "none";
-    }
+        document.getElementById('det-ab-loc').innerText = data.abLoc === "battle" ? "●バトル場" : "●ベンチ可";
+    } else { abBox.style.display = "none"; }
 
-    // ワザ表示ループの点検
     const atkContainer = document.getElementById('det-attacks-container');
     atkContainer.innerHTML = '';
     data.attacks.forEach(atk => {
         const div = document.createElement('div');
         div.className = 'det-atk-row';
-        const costDisp = atk.cost === "" ? "<small style='color:#888'>なし</small>" : atk.cost;
-        const dmgDisp = atk.dmg === "0" ? "-" : atk.dmg;
-        
         div.innerHTML = `
             <div class="atk-main">
-                <span class="det-energy">${costDisp}</span>
+                <span class="det-energy">${atk.cost || "なし"}</span>
                 <span class="det-atk-name">${atk.name}</span>
-                <span class="det-dmg">${dmgDisp}</span>
+                <span>${atk.dmg !== "0" ? atk.dmg : "-"}</span>
             </div>
             <div class="det-atk-text">${atk.text}</div>
         `;
@@ -78,18 +69,19 @@ function showDetail(index) {
     modal.classList.add('modal-show');
 }
 
-// --- 配置ボタン（動作確認用） ---
+// バトル場へ
 document.getElementById('btn-play-battle').onclick = () => {
     const card = cardList[selectedIndex];
-    myBattle.innerHTML = `<div class="mini-card"><b>${card.name}</b><br>${card.typeIcon} HP:${card.hp}</div>`;
+    myBattle.innerHTML = `<div class="mini-card" style="flex:1; height:100%; margin:0;"><b>${card.name}</b><br>${card.typeIcon}</div>`;
     modal.classList.remove('modal-show');
 };
 
+// ベンチへ
 document.getElementById('btn-play-bench').onclick = () => {
     const card = cardList[selectedIndex];
     for (let slot of myBenchSlots) {
         if (slot.innerHTML === "") {
-            slot.innerHTML = `<div class="mini-card"><b>${card.name}</b><br>${card.typeIcon} HP:${card.hp}</div>`;
+            slot.innerHTML = `<div class="mini-card" style="flex:1; height:100%; margin:0;"><b>${card.name}</b><br>${card.typeIcon}</div>`;
             break;
         }
     }
