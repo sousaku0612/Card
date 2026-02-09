@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Pokepoke Custom UI</title>
+    <title>Pokepoke Clone UI</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,6 +13,7 @@
         <div class="row"><div class="slot"></div><div class="slot"></div><div class="slot"></div></div>
         <div class="row"><div class="slot active"></div></div>
     </div>
+
     <div class="side me">
         <div class="row"><div class="slot active" id="my-battle"></div></div>
         <div class="row" id="my-bench">
@@ -25,8 +26,8 @@
 
 <div id="controls">
     <div class="status-bar">
-        <div>エネ貯球: <span id="energy-icon">💧</span></div>
-        <div>Point: 0/3</div>
+        <div class="energy-pool">貯球: <span id="energy-icon">💧</span></div>
+        <div class="score">Point: 0/3</div>
         <button class="btn-end">ターン終了</button>
     </div>
     <div id="hand"></div>
@@ -56,7 +57,6 @@
             <button class="act-btn battle" id="btn-play-battle">バトル場に出す</button>
             <button class="act-btn bench" id="btn-play-bench">ベンチに出す</button>
         </div>
-
         <button id="close-btn">閉じる</button>
     </div>
 </div>
